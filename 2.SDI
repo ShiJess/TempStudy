@@ -1,0 +1,60 @@
+00DA,,,data segment
+,,,    x1 db 6dh,7dh
+,,,    x2 db 0b,1b
+00DA,,,data ends
+000C,,,code segment
+000A,,,    assume ds:data,cs:code
+0000,,start,    start:
+0000,85 00 00,,    mov ax,data
+0003,85 00 00,,    mov ds,ax
+0006,85 8B 00,,    mov dx,28bh
+0009,85 82 00,,    mov al,82h
+,,,    out dx,al    ;设置8255，A口为输出端口，C口下半口为输出
+,,,
+,,,
+000C,85 00 00,III,III:mov di,offset x1 ;段码表首地址
+,,,
+000F,85 02 00,,    mov cl,00000010b
+0012,85 00 00,II,II: mov al,cl
+0015,85 8A 00,,    mov dx,28ah
+,,,    out dx,al                   ;位码送位控制端口
+,,,
+,,,
+0018,85 00,,    mov al, [di]                 ;AL中为要显示的数
+001A,85 88 00,,    mov dx,288h
+,,,    out dx,al                    ;段码送段控制端口
+,,,
+,,,
+001D,12 00 00,,    call delay                  ;延时
+000C,,,    cmp cl,01b
+0020,60 04,,    jz I
+,,,
+0022,05 00,,    inc di
+,,,    shr cl,1
+0024,80 EC,,    jmp II                      ;执行下一位的显示
+,,,
+,,,
+0026,85 06 00,I,  I: mov ah,06h
+0029,85 FF 00,,    mov dl,0ffh
+,,,    int 21h
+002C,60 DE,,    jz III                         ;软件延时
+,,,
+002E,85 4C 00,,    mov ah,4ch
+,,,    int 21h
+,,,
+00DE,,,   delay proc near
+0031,C0 00,,   push cx
+0033,85 08 00,,   mov bx,08h
+000A,,a, a:mov cx,0ffffh                    ;延时??????????
+0036,,IIII,   IIII:  loop IIII
+0036,15 00,,   dec  bx
+,,,
+0038,70 00,,   jnz a
+003A,D0 00,,    pop cx
+003C,22,,    ret
+00DE,,,    delay endp
+,,,
+000C,,,    code ends
+000E,,,    end start
+,,,
+,,,

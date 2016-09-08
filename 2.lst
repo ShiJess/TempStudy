@@ -1,0 +1,325 @@
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 1
+
+
+
+
+
+       MCS-51 Family Macro Assembler   A S E M - 5 1   V 1.3
+       =====================================================
+
+
+
+	Source File:	2.asm
+	Object File:	2.hex
+	List File:	2.lst
+
+
+
+ Line  I  Addr  Code            Source
+
+    1:				data segment
+				^
+			  @@@@@ illegal statement syntax @@@@@
+
+    2:				    x1 db 6dh,7dh
+				       ^
+			  @@@@@ illegal statement syntax @@@@@
+
+    3:				    x2 db 0b,1b
+				       ^
+			  @@@@@ illegal statement syntax @@@@@
+
+    4:				data ends
+				^
+			  @@@@@ illegal statement syntax @@@@@
+
+    5:				code segment
+				^
+			  @@@@@ illegal statement syntax @@@@@
+
+    6:				    assume ds:data,cs:code
+					   ^
+			  @@@@@ illegal statement syntax @@@@@
+
+    7:	  0000			    start:
+    8:	  0000	85 00 00	    mov ax,data
+					^
+			  @@@@@ symbol not defined @@@@@
+
+    9:	  0003	85 00 00	    mov ds,ax
+					^
+			  @@@@@ illegal operand @@@@@
+
+   10:	  0006	85 8B 00	    mov dx,28bh
+					^
+			  @@@@@ symbol not defined @@@@@
+
+   11:	  0009	85 82 00	    mov al,82h
+					^
+			  @@@@@ symbol not defined @@@@@
+
+   12:				    out dx,al    ;设置8255，A口为输出端口，C口下半口为输出
+					^
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 2
+
+
+
+ Line  I  Addr  Code            Source
+
+			  @@@@@ illegal statement syntax @@@@@
+
+   13:
+   14:
+   15:	  000C	85 00 00	III:mov di,offset x1 ;段码表首地址
+					^
+			  @@@@@ symbol not defined @@@@@
+
+   16:
+   17:	  000F	85 02 00	    mov cl,00000010b
+					^
+			  @@@@@ symbol not defined @@@@@
+
+   18:	  0012	85 00 00	II: mov al,cl
+					^
+			  @@@@@ symbol not defined @@@@@
+
+   19:	  0015	85 8A 00	    mov dx,28ah
+					^
+			  @@@@@ symbol not defined @@@@@
+
+   20:				    out dx,al                   ;位码送位控制端口
+					^
+			  @@@@@ illegal statement syntax @@@@@
+
+   21:
+   22:
+   23:	  0018	85 00		    mov al, [di]                 ;AL中为要显示的数
+					^
+			  @@@@@ symbol not defined @@@@@
+
+   24:	  001A	85 88 00	    mov dx,288h
+					^
+			  @@@@@ symbol not defined @@@@@
+
+   25:				    out dx,al                    ;段码送段控制端口
+					^
+			  @@@@@ illegal statement syntax @@@@@
+
+   26:
+   27:
+   28:	  001D	12 00 00	    call delay                  ;延时
+					 ^
+			  @@@@@ symbol not defined @@@@@
+
+   29:				    cmp cl,01b
+					^
+			  @@@@@ illegal statement syntax @@@@@
+
+   30:	  0020	60 04		    jz I
+   31:
+   32:	  0022	05 00		    inc di
+					^
+			  @@@@@ symbol not defined @@@@@
+
+   33:				    shr cl,1
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 3
+
+
+
+ Line  I  Addr  Code            Source
+
+				    ^
+			  @@@@@ illegal statement syntax @@@@@
+
+   34:	  0024	80 EC		    jmp II                      ;执行下一位的显示
+   35:
+   36:
+   37:	  0026	85 06 00	  I: mov ah,06h
+					 ^
+			  @@@@@ symbol not defined @@@@@
+
+   38:	  0029	85 FF 00	    mov dl,0ffh
+					^
+			  @@@@@ symbol not defined @@@@@
+
+   39:				    int 21h
+					^
+			  @@@@@ illegal statement syntax @@@@@
+
+   40:	  002C	60 DE		    jz III                         ;软件延时
+   41:
+   42:	  002E	85 4C 00	    mov ah,4ch
+					^
+			  @@@@@ symbol not defined @@@@@
+
+   43:				    int 21h
+					^
+			  @@@@@ illegal statement syntax @@@@@
+
+   44:
+   45:				   delay proc near
+					 ^
+			  @@@@@ illegal statement syntax @@@@@
+
+   46:	  0031	C0 00		   push cx
+					^
+			  @@@@@ symbol not defined @@@@@
+
+   47:	  0033	85 08 00	   mov bx,08h
+				       ^
+			  @@@@@ symbol not defined @@@@@
+
+   48:				 a:mov cx,0ffffh                    ;延时??????????
+				 ^
+			  @@@@@ illegal statement syntax @@@@@
+
+   49:	  0036			   IIII:  loop IIII
+					  ^
+			  @@@@@ illegal statement syntax @@@@@
+
+   50:	  0036	15 00		   dec  bx
+					^
+			  @@@@@ symbol not defined @@@@@
+
+   51:
+   52:	  0038	70 00		   jnz a
+				       ^
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 4
+
+
+
+ Line  I  Addr  Code            Source
+
+			  @@@@@ illegal operand @@@@@
+
+   53:	  003A	D0 00		    pop cx
+					^
+			  @@@@@ symbol not defined @@@@@
+
+   54:	  003C	22		    ret
+   55:				    delay endp
+					  ^
+			  @@@@@ illegal statement syntax @@@@@
+
+   56:
+   57:				    code ends
+				    ^
+			  @@@@@ illegal statement syntax @@@@@
+
+   58:				    end start
+					^
+			  @@@@@ too many operands @@@@@
+
+   59:
+   60:
+
+
+
+
+
+                     register banks used:  ---
+
+                     39 errors detected
+
+
+
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 5
+
+
+
+
+
+	       L I S T   O F   S Y M B O L S
+	       =============================
+
+
+SYMBOL				  TYPE     VALUE	LINE
+------------------------------------------------------------
+??ASEM_51			  NUMBER    8051
+??VERSION			  NUMBER    0130
+AC				  BIT	      D6
+ACC				  DATA	      E0
+B				  DATA	      F0
+CY				  BIT	      D7
+DPH				  DATA	      83
+DPL				  DATA	      82
+EA				  BIT	      AF
+ES				  BIT	      AC
+ET0				  BIT	      A9
+ET1				  BIT	      AB
+EX0				  BIT	      A8
+EX1				  BIT	      AA
+EXTI0				  CODE	    0003
+EXTI1				  CODE	    0013
+F0				  BIT	      D5
+I				  CODE	    0026	  37
+IE				  DATA	      A8
+IE0				  BIT	      89
+IE1				  BIT	      8B
+II				  CODE	    0012	  18
+III				  CODE	    000C	  15
+IIII				  CODE	    0036	  49
+INT0				  BIT	      B2
+INT1				  BIT	      B3
+IP				  DATA	      B8
+IT0				  BIT	      88
+IT1				  BIT	      8A
+OV				  BIT	      D2
+P				  BIT	      D0
+P0				  DATA	      80
+P1				  DATA	      90
+P2				  DATA	      A0
+P3				  DATA	      B0
+PCON				  DATA	      87
+PS				  BIT	      BC
+PSW				  DATA	      D0
+PT0				  BIT	      B9
+PT1				  BIT	      BB
+PX0				  BIT	      B8
+PX1				  BIT	      BA
+RB8				  BIT	      9A
+RD				  BIT	      B7
+REN				  BIT	      9C
+RESET				  CODE	    0000
+RI				  BIT	      98
+RS0				  BIT	      D3
+RS1				  BIT	      D4
+RXD				  BIT	      B0
+
+ASEM-51 V1.3                                         Copyright (c) 2002 by W.W. Heinz                                         PAGE 6
+
+
+
+SYMBOL				  TYPE     VALUE	LINE
+------------------------------------------------------------
+SBUF				  DATA	      99
+SCON				  DATA	      98
+SINT				  CODE	    0023
+SM0				  BIT	      9F
+SM1				  BIT	      9E
+SM2				  BIT	      9D
+SP				  DATA	      81
+START				  CODE	    0000	   7
+T0				  BIT	      B4
+T1				  BIT	      B5
+TB8				  BIT	      9B
+TCON				  DATA	      88
+TF0				  BIT	      8D
+TF1				  BIT	      8F
+TH0				  DATA	      8C
+TH1				  DATA	      8D
+TI				  BIT	      99
+TIMER0				  CODE	    000B
+TIMER1				  CODE	    001B
+TL0				  DATA	      8A
+TL1				  DATA	      8B
+TMOD				  DATA	      89
+TR0				  BIT	      8C
+TR1				  BIT	      8E
+TXD				  BIT	      B1
+WR				  BIT	      B6

@@ -1,0 +1,44 @@
+00DA,,,data segment
+,,,  BB equ 28bh
+,,,  CC equ 288h
+,,,  EE equ 28ah
+,,,  MODE    db  10000010B  ;8255控制字，A口输出
+00DA,,,data ends
+000C,,,code segment
+000A,,,     assume cs:code,ds:data
+0000,,start,start:
+0000,85 00 00,,        mov ax,data
+0003,85 00 00,,        mov ds,ax
+0006,85 80 00,,      mov al,80h
+0009,85 8B 00,,      mov dx,BB
+,,,      out dx,al      ;写控制字
+000C,85 6D 00,A1,A1:  mov al,6dh      ;输入5到A
+000F,85 88 00,,      mov dx,CC
+,,,      out dx,al
+0012,85 8A 00,,      mov dx,EE
+0015,85 02 00,,      mov al,02h
+,,,      out dx,al     ;送位码02h到C口
+0018,12 00 00,,      call delay
+001B,85 7D 00,,      mov al,7dh    ;输入6到A
+001E,85 88 00,,      mov dx,CC
+,,,      out dx,al
+0021,85 8A 00,,      mov dx,EE
+0024,85 01 00,,      mov al,01h
+,,,      out dx,al     ;送位码01h到C口
+0027,12 00 00,,      call delay
+002A,70 02,,      jnz A2
+002C,80 DE,,      jmp A1
+002E,85 4C 00,A2, A2: mov ah,4ch
+,,,      int 21h
+00DE,,,delay proc near
+0031,C0 00,,      push bx
+0033,85 05 00,,      mov bx,5h
+0036,85 00 00,AA, AA:  mov cx,0
+0039,,A3,  A3:  loop A3
+0039,15 00,,      dec bx
+,,,      jne AA
+003B,D0 00,,      pop bx
+003D,22,,      ret
+00DE,,,delay endp
+000C,,,code  ends
+000E,,,      end start
